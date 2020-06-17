@@ -6,7 +6,6 @@
 " \_|  |_/_|_| |_|\___\____/|_|_|_|
 "
 " === Basic nvim Configuration === {
-
 filetype plugin indent on
 set hidden
 set number
@@ -30,8 +29,8 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 set noexpandtab
-"set termguicolors
 set guifont=Mononoki:h16
+"set termguicolors
 
 set nowrap
 set linebreak
@@ -41,14 +40,15 @@ set linebreak
 " ==== Plugins ======================================================== {
 
 " Needs to be before ale download
-let g:ale_completion_enabled = 0
+"let g:ale_completion_enabled = 0
 
 if has('vim_starting')
   set runtimepath+=/home/minebill/.vim/bundle/Vundle.vim
 endif
 
 call plug#begin('/home/minebill/.vim/plugged')
-Plug 'akiyosi/gonvim-fuzzy'
+Plug 'rust-lang/rust.vim'
+Plug 'mhinz/vim-startify'
 Plug 'dag/vim-fish'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
@@ -72,7 +72,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/deol.nvim'
 call plug#end()
 
-"colorscheme Atelier_DuneDark
+source ~/.config/nvim/plugin/cargorun.vim
+
 colorscheme obsidian
 
 " }
@@ -119,7 +120,7 @@ let g:airline_symbols.linenr = ''
 " }
 
 
-" == NERDTree Settings ==
+" == NERD Tree Settings ==
 let g:NERDTreeWinSize = 20
 
 " == Vim-Rainbow ==
@@ -129,26 +130,29 @@ let g:rainbow_active = 1
 let g:ale_linters = {'rust': ['analyzer']}
 " }
 
-" === Keybinds ========================================================= {
+" === Key binds ========================================================= {
 let mapleader = " "
 inoremap fd <Esc>
+nnoremap ; :
+nnoremap : ;
 
 nnoremap <Leader>fed :e ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>feR :source ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>so :source %<CR>
 
-" == Searching Keybinds ==
+" == Searching Key binds ==
 nnoremap <C-n> :noh<CR>
 nnoremap n nzz
 nnoremap N Nzz
 
-" == Insert Mode Editing Keybinds ==
+" == Insert Mode Editing Key binds ==
 " TODO: Try now to use it
 imap <C-BS> <C-W>
 
-" == Editing Keybinds ==
+"== Editing Keybinds ==
 nnoremap <C-O> o<Esc>k
-nnoremap <S-O> O<Esc>j
+"nnoremap <C-S-O> O<Esc>j
+
 
 nnoremap m :NERDTreeToggle<CR>
 
@@ -156,37 +160,23 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 noremap <S-Tab> :bn<CR>
 noremap <C-Tab> :bp<CR>
 
-" == ALE Keybinds ==
-map <Leader>gt :ALEGoToDefinition<CR>
-map <Leader>gr :ALEFindReferences<CR>
+" == ALE Key binds ==
+nnoremap <Leader>gt :ALEGoToDefinition<CR>
+nnoremap <Leader>gr :ALEFindReferences<CR>
+nnoremap <Leader>fe :ALEFirst<CR>
+nnoremap <Leader>ee :ALENext<CR>
+
+nnoremap <Leader>fmt :RustFmt<CR>
 
 nnoremap <Leader>gh :call CocActionAsync('doHover')<CR>
 " noremap <C-S-Tab> :bp<CR>
 
 " }
 
-nnoremap <F9> :call CargoRun("build")<CR>
-nnoremap <F10> :call CargoRun("run")<CR>
-nnoremap <F11> :call CargoRun("clippy")<CR>
-function CargoRun(cmd)
-	botright split CargoRunner
-	resize 12
-	setlocal buftype=nofile bufhidden=delete nobuflisted nolist nomodifiable
-		\ noswapfile
-		\ nowrap
-		\ cursorline
-		\ nospell
-		\ nonu
-		\ norelativenumber
-		\ winfixheight
-	set filetype=CargoRunner
-	exec 'terminal cargo ' . a:cmd
-	nnoremap <silent><buffer> q :call RunnerClose()<CR>
-	"nnoremap <silent><buffer> q :bd!<CR>
-	normal! G
-endfunction
+nnoremap <F9> :call CargoRun("build", "", "")<CR>
+nnoremap <F10> :call CargoRun("run", "", "")<CR>
+nnoremap <F11> :call CargoRun("clippy", "", "")<CR>
+" {
 
-function RunnerClose()
-	exec 'bd!'
-	exec 'wincmd p'
-endfunction
+
+

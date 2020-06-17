@@ -1,6 +1,8 @@
 abbr -a g 'git'
 abbr -a c 'cargo'
-abbr -a dotfiles '/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+abbr -a dot '/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+abbr -a v 'nvim'
+abbr -a vv 'nvim .'
 
 if command -v exa > /dev/null
 	abbr -a l 'exa'

@@ -29,11 +29,14 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 set noexpandtab
-set guifont=Mononoki:h16
-"set termguicolors
+set termguicolors
 
 set nowrap
 set linebreak
+
+if has("nvim")
+	set guifont=Mononoki:h24
+end
 
 " }
 
@@ -46,7 +49,16 @@ if has('vim_starting')
   set runtimepath+=/home/minebill/.vim/bundle/Vundle.vim
 endif
 
-call plug#begin('/home/minebill/.vim/plugged')
+call plug#begin('/home/minebill/.config/nvim/plugged')
+"Plug 'hardcoreplayers/dashboard-nvim'
+Plug 'lilydjwg/colorizer'
+Plug 'mboughaba/i3config.vim'
+Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
+Plug 'junegunn/fzf.vim'
+Plug 'nanotech/jellybeans.vim'
+Plug 'rakr/vim-one'
+Plug 'kyoz/purify', {'rtp': 'vim'}
+Plug 'clktmr/vim-gdscript3'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-startify'
 Plug 'dag/vim-fish'
@@ -74,7 +86,15 @@ call plug#end()
 
 source ~/.config/nvim/plugin/cargorun.vim
 
-colorscheme obsidian
+colorscheme one
+let g:airline_theme='one'
+call one#highlight('Normal', '','242424', 'none')
+
+let g:neovide_refresh_rate = 140
+let g:neovide_cursor_animation_length = 0
+let g:neovide_cursor_trail_length = 0
+let g:neovide_cursor_antialiasing = v:false
+let g:neovide_transparency = 1
 
 " }
 
@@ -123,11 +143,15 @@ let g:airline_symbols.linenr = ''
 " == NERD Tree Settings ==
 let g:NERDTreeWinSize = 20
 
+let g:goyo_width = 130
+let g:goyo_height = '90%'
+
 " == Vim-Rainbow ==
 let g:rainbow_active = 1
 
 " == Ale Settings ==
 let g:ale_linters = {'rust': ['analyzer']}
+
 " }
 
 " === Key binds ========================================================= {
@@ -156,7 +180,10 @@ nnoremap <C-O> o<Esc>k
 
 nnoremap m :NERDTreeToggle<CR>
 
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+nnoremap <Leader>zz :Goyo<CR>
+
+inoremap <expr><Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
+inoremap <expr><S-Tab> pumvisible() ? "\<C-P>" : "\<Tab>"
 noremap <S-Tab> :bn<CR>
 noremap <C-Tab> :bp<CR>
 
@@ -178,5 +205,33 @@ nnoremap <F10> :call CargoRun("run", "", "")<CR>
 nnoremap <F11> :call CargoRun("clippy", "", "")<CR>
 " {
 
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
+let g:fzf_layout = { 'window': 'call OpenFloatingSearch()' }
+nnoremap <Leader>fff :Files<CR>
 
+function! OpenFloatingSearch()
+	let height = &lines - 3
+	let width = float2nr(&columns - (&columns * 2 / 10))
+	let col = float2nr((&columns - width) - 2)
 
+	let opts = {
+	\	'relative': 'editor',
+	\	'row': height * 0.3,
+	\	'col': col + 7,
+	\	'width': width * 2 / 3,
+	\	'height': height / 2
+	\}
+
+	let buf = nvim_create_buf(v:false, v:true)
+	let win = nvim_open_win(buf, v:true, opts)
+
+	call setwinvar(win, '&winhl', 'Normal:Pmenu')
+
+	setlocal
+		\ buftype=nofile
+		\ nobuflisted
+		\ bufhidden=hide
+		\ nonumber
+		\ norelativenumber
+		\ signcolumn=no
+endfunction

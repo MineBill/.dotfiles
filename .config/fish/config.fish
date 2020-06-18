@@ -1,11 +1,15 @@
-abbr -a g 'git'
-abbr -a c 'cargo'
-abbr -a dot '/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-abbr -a v 'nvim'
-abbr -a vv 'nvim .'
+#abbr -a g 'git'
+#abbr -a c 'cargo'
+#abbr -a dot '/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+#abbr -a v 'nvim'
+#abbr -a vv 'nvim .'
 abbr -a i3r 'i3-msg reload'
 abbr -a i3s 'i3-msg restart'
 abbr -a cls 'clear'
+alias g=git
+alias c=cargo
+alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+alias v=nvim
 
 if command -v exa > /dev/null
 	abbr -a l 'exa'

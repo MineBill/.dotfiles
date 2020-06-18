@@ -9,6 +9,15 @@ set $mod Mod1
 
 font pango:Mononoki 13
 
+# === Variables ===============================================================
+set $DESKTOP_BACKGROUND_IMAGE /home/minebill/Downloads/1255576.jpg
+set $KEY_REPEAT_RATE_HZ 50
+set $KEY_REPEAT_DELAY_MS 250
+set $GAPS_INNER 6
+set $GAPS_OUTER 6
+
+# === Colors ==================================================================
+
 # === Keybinds ================================================================
 	# [ Window Drag Modifier ]
 		floating_modifier $mod
@@ -89,6 +98,9 @@ font pango:Mononoki 13
 
 	# [ Exit i3 ]
 		bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+	# [ Rofi ]
+		bindsym $mod+d exec rofi -show run -theme paper-float
 
 	# [ Workspace Focus Keybinds ]
 		bindsym $mod+1 workspace $workspace1
@@ -173,8 +185,8 @@ for_window [class=".*"] border pixel 2
 hide_edge_borders both
 new_window pixel
 
-gaps inner 6
-gaps outer 6
+gaps inner $GAPS_INNER
+gaps outer $GAPS_OUTER
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -208,11 +220,15 @@ bar {
         }
 }
 
-#keybinds
-bindsym $mod+d exec rofi -show run -theme paper-float
+# Startup
+	# [ Feh - Used for settings a desktop background ]
+		exec_always feh --bg-scale $BACKGROUND
 
-exec_always feh --bg-scale /home/minebill/Downloads/1255576.jpg
-exec_always compton
+	# [ Compton - Used to add transparency to windows ]
+		exec_always compton
 
-exec xset r rate 250 50
-exec xrandr --output HDMI-0 --mode 1920x1080 --rate 143.98
+	# [ Set the key repeat rate (Wait ms, Repeat hz) ]
+		exec_always xset r rate $KEY_REPEAT_DELAY_MS $KEY_REPEAT_RATE_HZ
+
+	# [ Set the the monitor refresh rate to 144hz (Default is 60hz) ]
+		exec xrandr --output HDMI-0 --mode 1920x1080 --rate 143.98

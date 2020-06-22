@@ -30,27 +30,46 @@ set shiftwidth=4
 set tabstop=4
 set noexpandtab
 set termguicolors
+set colorcolumn=100
 
 set nowrap
 set linebreak
 
+autocmd BufNewFile,BufRead i3config set ft=i3config
+"augroup RUST_SETTINGS
+	"autocmd!
+	"autocmd FileType rust autocmd BufWritePre <buffer> :RustFmt
+"augroup END
+
 if has("nvim")
-	set guifont=Mononoki:h24
+	set guifont=Fira\ Code:h18
+	"set guifont=InputCode:h21
+	"set guifont=Mononoki:h21
+
+	let g:neovide_refresh_rate = 140
+	let g:neovide_cursor_animation_length = 0
+	let g:neovide_cursor_trail_length = 0
+	let g:neovide_cursor_antialiasing = v:false
+	let g:neovide_transparency = 1
 end
 
 " }
 
-" ==== Plugins ======================================================== {
-
-" Needs to be before ale download
-"let g:ale_completion_enabled = 0
+" ==== Plugins ============================================================== {
 
 if has('vim_starting')
   set runtimepath+=/home/minebill/.vim/bundle/Vundle.vim
 endif
 
 call plug#begin('/home/minebill/.config/nvim/plugged')
-"Plug 'hardcoreplayers/dashboard-nvim'
+Plug 'ron-rs/ron.vim'
+Plug 'vim-crystal/vim-crystal'
+Plug 'alaviss/nim.nvim'
+Plug 'chriskempson/base16-vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'doums/darcula'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'lervag/vimtex'
 Plug 'lilydjwg/colorizer'
 Plug 'mboughaba/i3config.vim'
 Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
@@ -73,8 +92,6 @@ Plug 'petrbroz/vim-glsl'
 Plug 'frazrepo/vim-rainbow'
 Plug 'yggdroot/indentline'
 Plug 'airblade/vim-rooter'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -86,19 +103,18 @@ call plug#end()
 
 source ~/.config/nvim/plugin/cargorun.vim
 
-colorscheme one
-let g:airline_theme='one'
-call one#highlight('Normal', '','242424', 'none')
-
-let g:neovide_refresh_rate = 140
-let g:neovide_cursor_animation_length = 0
-let g:neovide_cursor_trail_length = 0
-let g:neovide_cursor_antialiasing = v:false
-let g:neovide_transparency = 1
+"colorscheme OceanicNext
+colorscheme base16-tomorrow-night-eighties
+"let g:airline_theme='one'
+"call one#highlight('Normal', '','242424', 'none')
 
 " }
 
-" === Settings ========================================================= {
+" === Settings ============================================================== {
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_hightlight = 1
+let g:cpp_posix_standard = 1
 
 set foldmethod=marker
 set foldmarker={,}
@@ -154,11 +170,17 @@ let g:ale_linters = {'rust': ['analyzer']}
 
 " }
 
-" === Key binds ========================================================= {
+" === Key binds ============================================================= {
 let mapleader = " "
 inoremap fd <Esc>
 nnoremap ; :
 nnoremap : ;
+
+nnoremap η h
+nnoremap ξ j
+nnoremap κ k
+nnoremap λ l
+nnoremap φδ <Esc>
 
 nnoremap <Leader>fed :e ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>feR :source ~/.config/nvim/init.vim<CR>
@@ -199,6 +221,7 @@ nnoremap <Leader>gh :call CocActionAsync('doHover')<CR>
 " noremap <C-S-Tab> :bp<CR>
 
 " }
+nnoremap <F5> :call SimpleTerm()<CR>
 
 nnoremap <F9> :call CargoRun("build", "", "")<CR>
 nnoremap <F10> :call CargoRun("run", "", "")<CR>

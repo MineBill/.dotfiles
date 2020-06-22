@@ -1,0 +1,267 @@
+# I3 Conifig [WIP]
+# __  __ _            ____ ___ _ _
+#|  \/  (_)_ __   ___| __ )_ _| | |
+#| |\/| | | '_ \ / _ \  _ \| || | |
+#| |  | | | | | |  __/ |_) | || | |
+#|_|  |_|_|_| |_|\___|____/___|_|_|
+# Modifer
+set $mod Mod1
+
+font pango:Fira Code 13
+
+# === Variables ===============================================================
+set $DESKTOP_BACKGROUND_IMAGE /home/minebill/Pictures/wallpaper_rotation/2019-doom-eternal_1563221629.jpg
+set $I3BLOCKS_CONF ~/.config/i3/i3blocks.conf
+set $KEY_REPEAT_RATE_HZ 50
+set $KEY_REPEAT_DELAY_MS 250
+set $GAPS_INNER 10
+set $GAPS_OUTER 10
+
+set $PRIMARY_SCREEN HDMI-0
+
+# === Colors ==================================================================
+set $base00 #1B2B34
+set $base01 #343D46
+set $base02 #4F5B66
+set $base03 #65737E
+set $base04 #A7ADBA
+set $base05 #C0C5CE
+set $base06 #CDD3DE
+set $base07 #D8DEE9
+set $base08 #EC5f67
+set $base09 #F99157
+set $base0A #FAC863
+set $base0B #99C794
+set $base0C #5FB3B3
+set $base0D #6699CC
+set $base0E #C594C5
+set $base0F #AB7967
+
+# === Keybinds ================================================================
+# [ Window Drag Modifier ]
+	floating_modifier $mod
+
+# [ Terminal ]
+	bindsym $mod+Return exec alacritty
+
+# [ Kill Window ]
+	bindsym $mod+Shift+q kill
+
+# [ Focus Keys ]
+
+	#Vim
+	bindsym $mod+h focus left
+	bindsym $mod+j focus down
+	bindsym $mod+k focus up
+	bindsym $mod+l focus right
+
+	#Arrow
+	bindsym $mod+Left focus left
+	bindsym $mod+Down focus down
+	bindsym $mod+Up focus up
+	bindsym $mod+Right focus right
+
+# [ Focused Window Move Keys ]
+
+	# Vim
+	bindsym $mod+Shift+h move left
+	bindsym $mod+Shift+j move down
+	bindsym $mod+Shift+k move up
+	bindsym $mod+Shift+l move right
+
+	#bindsym $mod+Shift+η move left
+	#bindsym $mod+Shift+ξ move down
+	#bindsym $mod+Shift+κ move up
+	#bindsym $mod+Shift+λ move right
+
+	# Arrow
+	bindsym $mod+Shift+Left move left
+	bindsym $mod+Shift+Down move down
+	bindsym $mod+Shift+Up move up
+	bindsym $mod+Shift+Right move right
+
+# [ Splits ]
+	# Horizontal
+	bindsym $mod+b split h
+
+	# Vertical
+	bindsym $mod+v split v
+
+# [ Fullscreen ]
+	bindsym $mod+f fullscreen toggle
+
+# [ Layout ]
+	bindsym $mod+s layout stacking
+	bindsym $mod+w layout tabbed
+	bindsym $mod+e layout toggle split
+
+# [ Toggle Floating ]
+	bindsym $mod+Shift+space floating toggle
+
+# [ Toggle Tiled/Floating Focus ]
+	bindsym $mod+space focus mode_toggle
+
+# [ Reload Config File ]
+	bindsym $mod+Shift+c reload
+
+# [ Restart i3 ]
+	bindsym $mod+Shift+r restart
+
+# [ Exit i3 ]
+	bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+	bindsym $mod+Control+Return exec "alacritty -t 'Calculator'"
+
+# [ Rofi ]
+	bindsym $mod+d exec rofi -show run
+
+# [ Mulitmedia ]
+	bindsym XF86AudioRaiseVolume exec ~/audio_manager.sh + 5
+	bindsym XF86AudioLowerVolume exec ~/audio_manager.sh - 5
+	bindsym XF86AudioMute exec ~/audio_manager.sh toggle
+
+# [ Workspace Focus Keybinds ]
+	bindsym $mod+1 workspace $workspace1
+	bindsym $mod+2 workspace $workspace2
+	bindsym $mod+3 workspace $workspace3
+	bindsym $mod+4 workspace $workspace4
+	bindsym $mod+5 workspace $workspace5
+	bindsym $mod+6 workspace $workspace6
+	bindsym $mod+7 workspace $workspace7
+	bindsym $mod+8 workspace $workspace8
+	bindsym $mod+9 workspace $workspace9
+	bindsym $mod+0 workspace $workspace10
+
+# [ Workspace Move Keybinds ]
+	bindsym $mod+Shift+1 move container to workspace $workspace1 
+	bindsym $mod+Shift+2 move container to workspace $workspace2 
+	bindsym $mod+Shift+3 move container to workspace $workspace3 
+	bindsym $mod+Shift+4 move container to workspace $workspace4 
+	bindsym $mod+Shift+5 move container to workspace $workspace5 
+	bindsym $mod+Shift+6 move container to workspace $workspace6 
+	bindsym $mod+Shift+7 move container to workspace $workspace7 
+	bindsym $mod+Shift+8 move container to workspace $workspace8 
+	bindsym $mod+Shift+9 move container to workspace $workspace9 
+	bindsym $mod+Shift+0 move container to workspace $workspace10
+
+
+# === Workspaces ==============================================================
+set $workspace1  "I"
+set $workspace2  "II"
+set $workspace3  "III"
+set $workspace4  "IV"
+set $workspace5  "V"
+set $workspace6  "VI"
+set $workspace7  "VII"
+set $workspace8  "VIII"
+set $workspace9  "VVI"
+set $workspace10 "X"
+
+# Resize Keybinds
+bindsym $mod+r mode "resize"
+
+# === Window Configuration ====================================================
+
+for_window [class=".*"] border pixel 4
+for_window [title="Calculator"] floating enable, border pixel 14
+
+hide_edge_borders both
+new_window pixel
+
+gaps inner $GAPS_INNER
+gaps outer $GAPS_OUTER
+
+mode "resize" {
+
+	# Vim
+	bindsym h resize shrink width 10 px or 10 ppt
+	bindsym j resize grow height 10 px or 10 ppt
+	bindsym k resize shrink height 10 px or 10 ppt
+	bindsym l resize grow width 10 px or 10 ppt
+
+	# Arrow
+	bindsym Left resize shrink width 10 px or 10 ppt
+	bindsym Down resize grow height 10 px or 10 ppt
+	bindsym Up resize shrink height 10 px or 10 ppt
+	bindsym Right resize grow width 10 px or 10 ppt
+
+	# Exit Resize
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+# == Window Coloring ==
+set $WIN_F_BORDER_COLOR    
+set $WIN_F_BG_COLOR        
+set $WIN_F_TXT_COLOR       
+
+set $WIN_UF_BORDER_COLOR   
+set $WIN_UF_BG_COLOR       
+set $WIN_UF_TXT_COLOR      
+
+set $WIN_FI_BORDER_COLOR   
+set $WIN_FI_BG_COLOR       
+set $WIN_FI_TXT_COLOR      
+
+set $WIN_U_BORDER_COLOR    
+set $WIN_U_BG_COLOR        
+set $WIN_U_TXT_COLOR       
+
+# Window type			Border				 Background		  Text
+client.focused 			$base0A  $base0A $base08  $base0A
+client.unfocused 		$base03  $base03 $base0A  $base03
+client.focused_inactive $base03  $base03 $base0A  $base08
+client.urgent 			$base0C  $base0C $base0A  $base08
+
+# === Bar Configuration =======================================================
+
+# == Bar Coloring ==
+set $WS_BG_COLOR           
+set $WS_TXT_COLOR          
+
+set $WS_F_BORDER_COLOR     
+set $WS_F_BG_COLOR         
+set $WS_F_TXT_COLOR        
+
+set $WS_I_BORDER_COLOR     
+set $WS_I_BG_COLOR         
+set $WS_I_TXT_COLOR        
+
+set $WS_U_BORDER_COLOR     
+set $WS_U_BG_COLOR         
+set $WS_U_TXT_COLOR        
+
+#bar {
+	#status_command i3blocks -c $I3BLOCKS_CONF
+	##workspacbote_min_width 40
+	#workspace_min_width 40
+	#height 25
+	
+	#output $PRIMARY_SCREEN
+	#position bottom
+	#colors{
+		## Type             Border             Background     Text
+		#focused_workspace  $base0A  $base00  $base0A
+		#inactive_workspace $base03  $base00  $base03
+		#urgent_workspace   $base03  $base00  $base03
+		#background         $base00
+	#}
+#}
+
+# Startup
+# [ Start the pulse effects service - Used for bass boosting ]
+	exec_always pulseeffects --gapplication-service
+
+# [ Feh - Used for settings a desktop background ]
+	exec_always feh --bg-fill $BACKGROUND
+
+# [ Compton - Used to add transparency to windows ]
+	exec_always compton
+
+# [ Set the key repeat rate (Wait ms, Repeat hz) ]
+	exec_always xset r rate $KEY_REPEAT_DELAY_MS $KEY_REPEAT_RATE_HZ
+
+	exec_always --no-startup-id ~/polylaunch.sh &
+
+# [ Set the the monitor refresh rate to 144hz (Default is 60hz) ]
+	exec xrandr --output HDMI-0 --mode 1920x1080 --rate 143.98
